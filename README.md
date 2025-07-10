@@ -1,2 +1,2 @@
 # PriceWatch
-A project dedicated to compare prices of product in e-commerce
+A project dedicated to compare prices of products in e-commerce
