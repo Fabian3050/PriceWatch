@@ -27,7 +27,7 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private CategoryEntity categoryId;
+    private CategoryEntity category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NotificationEntity> notifications;
