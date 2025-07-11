@@ -28,6 +28,7 @@ public class UserEntity implements UserDetails {
     String lastname;
     String country;
     String password;
+
     @Enumerated(EnumType.STRING)
     RoleEntity role;
 
