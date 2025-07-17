@@ -1,5 +1,6 @@
 package com.example.PriceWatch.services;
 
+import com.example.PriceWatch.entities.RoleEntity;
 import com.example.PriceWatch.entities.UserEntity;
 import com.example.PriceWatch.jwt.JwtAuthenticationFilter;
 import com.example.PriceWatch.repositories.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -76,6 +78,22 @@ public class UserService {
         }
 
         return userRepository.save(existingUser);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserEntity updateUserRole(UserEntity user) throws Exception {
+        UserEntity existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + user.getId() + " does not exist."));
+
+        if (user.getRole() != null) {
+            if (!Objects.equals(user.getRole().toString(), "ADMIN")) {
+                RoleEntity role = RoleEntity.fromString(user.getRole().toString());
+                existingUser.setRole(role);
+                return userRepository.save(existingUser);
+            }
+        }
+
+        throw new Exception("Try a different role.");
     }
 
     //delete user
